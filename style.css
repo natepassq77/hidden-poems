@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(32, 35%, 94%); /* parchment */
+  --foreground: hsl(0, 0%, 11%); /* ink black */
+  --burgundy: hsl(0, 30%, 23%); /* #4B2C2C */
+  --umber: hsl(25, 45%, 32%); /* #7A5230 */
+  --gold: hsl(51, 70%, 52%); /* #D4AF37 */
+  --parchment: hsl(42, 58%, 88%); /* #F5E6C8 */
+  --ink: hsl(0, 0%, 11%); /* #1B1B1B */
+  --primary: var(--burgundy);
+  --primary-foreground: var(--parchment);
+  --secondary: var(--umber);
+  --secondary-foreground: var(--parchment);
+  --muted: hsl(42, 30%, 85%);
+  --muted-foreground: hsl(0, 0%, 25%);
+  --accent: var(--gold);
+  --accent-foreground: var(--ink);
+  --border: hsl(25, 20%, 75%);
+  --input: hsl(42, 50%, 92%);
+  --ring: var(--gold);
+  --card: hsl(42, 50%, 92%);
+  --card-foreground: var(--foreground);
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
+  --destructive: hsl(356, 91%, 54%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --radius: 8px;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(75, 44, 44, 0.05) 0%, transparent 50%),
+      linear-gradient(45deg, transparent 49%, rgba(212, 175, 55, 0.02) 50%, transparent 51%);
+  }
+}
+
+@layer components {
+  .parchment-texture {
+    position: relative;
+  }
+
+  .parchment-texture::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.03;
+    background-image: 
+      radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.3) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(75, 44, 44, 0.2) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(212, 175, 55, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px, 70px 70px, 90px 90px;
+    pointer-events: none;
+  }
+
+  .ink-stroke {
+    @apply no-underline relative transition-all duration-300;
+  }
+
+  .ink-stroke::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background: linear-gradient(90deg, var(--gold), var(--burgundy));
+    transition: width 0.3s ease;
+  }
+
+  .ink-stroke:hover::after {
+    width: 100%;
+  }
+
+  .poem-title:hover {
+    color: var(--gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+
+  .floating-leaf {
+    position: absolute;
+    font-size: 1.5rem;
+    color: var(--umber);
+    opacity: 0.6;
+    pointer-events: none;
+    animation: leafFall linear infinite;
+  }
+
+  .secret-link {
+    opacity: 0.3;
+    transition: opacity 0.5s ease;
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+
+  .secret-link:hover {
+    opacity: 0.8;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+  }
+
+  .animate-leaf-fall {
+    animation: leafFall 15s linear infinite;
+  }
+
+  .animate-ink-blot {
+    animation: inkBlot 1s ease-in-out;
+  }
+
+  .animate-letter-unfold {
+    animation: letterUnfold 1.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes leafFall {
+    0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+  }
+
+  @keyframes inkBlot {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes letterUnfold {
+    0% { transform: rotateY(-90deg); opacity: 0; }
+    100% { transform: rotateY(0deg); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-leaf {
+      animation: none;
+    }
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
